@@ -14,9 +14,8 @@ ALTER TABLE `membre`
 
 
 INSERT INTO `equipe` (`ID_equipe`, `nom_equipe`, `date_creation_eq`) VALUES
-(1, 'Staff', '2023-01-01'),
+(1, 'javascript', '2023-01-01'),
 (2, 'Java', '2023-02-02'),
-(3, 'javascript', '2023-11-02');
 
 
 CREATE TABLE `membre` (
@@ -46,10 +45,10 @@ COMMIT;
 
 
 INSERT INTO `membre` (`ID_membre`, `NOM_membre`, `prenom_membre`, `email_membre`, `phone_number`, `role`, `status`, `ID_eq`) VALUES
-(1, 'BEGHDI', 'HIBA', 'beghiba@gmail.com', 658144394, 'chef', 'congé', 1),
-(2, 'Ouafidi', 'Oussama', 'ouafidi@gmail.com', 614012000, 'Chef', 'Working', 1),
-(4, 'BEGHDI', 'ayouya', 'beghiba@gmail.com', 658144394, 'break', 'machi congé', 2),
-(5, 'soufiane', 'soufiane', 'soufiane@gmail.com', 612345789, 'break', 'congé', 1);
+(1, 'BEGHDI', 'HIBA', 'beghiba@gmail.com', 658144394, 'Leader', 'celibataire', 1),
+(2, 'Ouafidi', 'Oussama', 'ouafidi@gmail.com', 614012000, 'Leader', 'celibataire', 1),
+(4, 'BEGHDI', 'ayouya', 'beghiba@gmail.com', 658144394, 'Employee', 'celibataire', 2),
+(5, 'soufiane', 'soufiane', 'soufiane@gmail.com', 612345789, 'Employee', 'marié', 1);
 
 
 
