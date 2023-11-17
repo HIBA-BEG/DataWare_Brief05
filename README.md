@@ -1,4 +1,4 @@
-# GestionDuPersonnel
+# Gestion Du Personnel
 
 ## Les liens des diagrammes UML 
 Création des diagrammes d'UML d'un site web de gestion du personnel pour DataWare, pour un preview visitez ces liens qui vous mèneront vers les diagrammes :
