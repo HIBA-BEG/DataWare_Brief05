@@ -1,5 +1,40 @@
 <?php
 	require 'connexion.php';
+
+    if (isset($_POST['save-btn'])) {
+        $prenom = $_POST['prenom'];
+        $nom = $_POST['nom'];
+        $email = $_POST['email'];
+        $phone = $_POST['phone'];
+        $role = $_POST['role'];
+        $status = $_POST['status'];
+        $nomEquipe = $_POST['nomEquipe'];
+
+        // Assuming $connexion is your database connection object
+        $sql = "INSERT INTO membre (NOM_membre, prenom_membre, email_membre,phone_number, role, status, ID_eq) VALUES (?, ?, ?,?, ?, ?, ?)";
+        
+        
+        // Use prepared statement to prevent SQL injection
+        $stmt = mysqli_prepare($connexion, $sql);
+
+        // Bind parameters
+        mysqli_stmt_bind_param($stmt, "sssisss", $nom, $prenom, $email,$phone, $role, $status, $nomEquipe);
+
+      
+        // Execute the statement
+        $result = mysqli_stmt_execute($stmt);
+
+        if ($result) {
+            header("Location: ./index.php");
+            exit();
+        } else {
+            // Display the error message
+            echo "Error: " . mysqli_error($connexion);
+        }
+
+        // Close the statement
+        mysqli_stmt_close($stmt);
+    }
 ?>
 
 <!doctype html>
@@ -143,42 +178,7 @@
             <button type="submit" name="save-btn" value="save" class="rounded-md bg-red-700 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save</button>
         </form>
     </div>
-    
-    <?php
-    if (isset($_POST['save-btn'])) {
-        $prenom = $_POST['prenom'];
-        $nom = $_POST['nom'];
-        $email = $_POST['email'];
-        $phone = $_POST['phone'];
-        $role = $_POST['role'];
-        $status = $_POST['status'];
-        $nomEquipe = $_POST['nomEquipe'];
 
-        // Assuming $connexion is your database connection object
-        $sql = "INSERT INTO membre (NOM_membre, prenom_membre, email_membre,phone_number, role, status, ID_eq) VALUES (?, ?, ?,?, ?, ?, ?)";
-        
-        
-        // Use prepared statement to prevent SQL injection
-        $stmt = mysqli_prepare($connexion, $sql);
-
-        // Bind parameters
-        mysqli_stmt_bind_param($stmt, "sssisss", $nom, $prenom, $email,$phone, $role, $status, $nomEquipe);
-
-      
-        // Execute the statement
-        $result = mysqli_stmt_execute($stmt);
-
-        if ($result) {
-            echo "Data saved";
-        } else {
-            // Display the error message
-            echo "Error: " . mysqli_error($connexion);
-        }
-
-        // Close the statement
-        mysqli_stmt_close($stmt);
-    }
-    ?>
 </body>
 </html>
 

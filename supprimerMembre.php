@@ -6,7 +6,8 @@
         $sql = "DELETE FROM `membre` WHERE `ID_membre` = '$id'";
         $result = mysqli_query($connexion,$sql);
         if ($result) {
-            echo "Deleted Successfully";
+            header("Location: ./index.php");
+            exit();
         }else{
             die(mysql_error($connexion));
         }

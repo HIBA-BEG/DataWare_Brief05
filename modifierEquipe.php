@@ -1,32 +1,28 @@
 <?php
 	require 'connexion.php';
 
-  $ID = $_GET['modifierID'];
+    $ID = $_GET['modifierID'];
 
-  if (isset($_POST['prenom'])) {
-    $prenom = $_POST['prenom'];
-    $nom = $_POST['nom'];
-    $email = $_POST['email'];
-    $phone = $_POST['phone'];
-    $role = $_POST['role'];
-    $status = $_POST['status'];
-    $nomEquipe = $_POST['nomEquipe'];
-    
-    $sql = "UPDATE membre SET NOM_membre='$nom', prenom_membre='$prenom' , email_membre='$email' , phone_number= '$phone' , role='$role', status='$status' WHERE ID_membre = '$ID'";
-    
-    $result = mysqli_query($connexion,$sql);
-    if ($result) {
-      header("Location: ./index.php");
-      exit();
-    }else{
-        die(mysql_error($connexion));
+    if (isset($_POST['nomEq'])) {
+        $nomEquipe = $_POST['nomEq'];
+        $date = $_POST['date'];
+
+        // Assuming $connexion is your database connection object
+        $sql = "UPDATE equipe SET nom_equipe='$nomEquipe', date_creation_eq='$date' WHERE ID_equipe = '$ID'";
+
+        $result = mysqli_query($connexion,$sql);
+        if ($result) {
+        header("Location: ./index.php");
+        exit();
+        }else{
+            die(mysql_error($connexion));
+        }
     }
-  }
 
-  //fetch data for the form
-  $select = "SELECT * FROM membre WHERE ID_membre = '$ID'";
-  $result = mysqli_query($connexion, $select);
-  $row = mysqli_fetch_array($result);
+    //fetch data for the form
+    $select = "SELECT * FROM equipe WHERE ID_equipe = '$ID'";
+    $result = mysqli_query($connexion, $select);
+    $row = mysqli_fetch_array($result);
 ?>
 
 <!doctype html>
@@ -64,15 +60,15 @@
             </button>
             </div>
             <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-            <div class="flex flex-shrink-0 items-center">
-                <img class="h-12 w-auto" src="./skull.webp" alt="PERSONNEL">
-            </div>
-            <div class="hidden sm:ml-6 sm:block">
-                <div class="flex space-x-4">
-                <a href="index.php" class="text-gray-300 hover:bg-red-900 hover:text-white rounded-md px-3 py-2 text-sm font-medium">HOME</a>
-                <a href="ajoutMembre.php" class="text-gray-300 hover:bg-red-900 hover:text-white rounded-md px-3 py-2 text-sm font-medium">AJOUTER</a>
+                <div class="flex flex-shrink-0 items-center">
+                    <img class="h-12 w-auto" src="./skull.webp" alt="PERSONNEL">
                 </div>
-            </div>
+                <div class="hidden sm:ml-6 sm:block">
+                    <div class="flex space-x-4">
+                    <a href="index.php" class="text-gray-300 hover:bg-red-900 hover:text-white rounded-md px-3 py-2 text-sm font-medium">HOME</a>
+                    <a href="ajoutMembre.php" class="text-gray-300 hover:bg-red-900 hover:text-white rounded-md px-3 py-2 text-sm font-medium">AJOUTER</a>
+                    </div>
+                </div>
             </div>
         </div>
         </div>
@@ -89,75 +85,19 @@
     <div class="space-y-12 m-auto">
         <form  method="post">
             <div class="border-b border-gray-900/10 pb-12">
-            <h2 class="text-base font-semibold leading-7 text-gray-900">MODIFIER LE MEMBRE</h2>
+            <h2 class="text-base font-semibold leading-7 text-gray-900">MODIFIER L'EQUIPE</h2>
             <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                 <div class="sm:col-span-3">
-                <label for="nom" class="block text-sm font-medium leading-6 text-gray-900">Nom Membre</label>
+                <label for="nom" class="block text-sm font-medium leading-6 text-gray-900">Nom Equipe</label>
                 <div class="mt-2">
-                    <input type="text" value="<?php echo $row['NOM_membre'] ?>" name="nom" id="nom" autocomplete="family-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                    <input type="text" value="<?php echo $row['nom_equipe'] ?>" name="nomEq" id="nomEq" autocomplete="family-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                 </div>
                 </div>
                 
                 <div class="sm:col-span-3">
-                    <label for="prenom" class="block text-sm font-medium leading-6 text-gray-900">Prenom Membre</label>
+                    <label for="prenom" class="block text-sm font-medium leading-6 text-gray-900">Date de creation</label>
                     <div class="mt-2">
-                    <input type="text"  value="<?php echo $row['prenom_membre'] ?>" name="prenom" id="prenom" autocomplete="given-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-                </div>
-                </div>
-
-                <div class="sm:col-span-3">
-                <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email Membre</label>
-                <div class="mt-2">
-                    <input id="email" value="<?php echo $row['email_membre'] ?>" name="email" type="email" autocomplete="email" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-                </div>
-                </div>
-                <div class="sm:col-span-3">
-                <label for="phone" class="block text-sm font-medium leading-6 text-gray-900">Phone</label>
-                <div class="mt-2">
-                    <input type="text" value="<?php echo $row['phone_number'] ?>" name="phone" id="phone" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-                </div>
-                </div>
-
-                <div class="sm:col-span-3">
-                <label for="role" class="block text-sm font-medium leading-6 text-gray-900">Role</label>
-                <div class="mt-2">
-                    <input type="text" value="<?php echo $row['role'] ?>" name="role" id="role" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-                </div>
-                </div>
-            
-                <div class="sm:col-span-3">
-                <label for="status" class="block text-sm font-medium leading-6 text-gray-900">Status</label>
-                <div class="mt-2">
-                    <input type="text" value="<?php echo $row['status'] ?>" name="status" id="status" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-                </div>
-                </div>
-            
-                <div class="sm:col-span-3">
-                <label for="nomEquipe" class="block text-sm font-medium leading-6 text-gray-900">Nom d'equipe</label>
-                <div class="mt-2">
-                    <select id="nomEquipe" value="<?php echo $row['ID_eq'] ?>" name="nomEquipe" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6">
-                        <!-- <td class="whitespace-nowrap px-3 py-4 text-sm text-center text-gray-500"> -->
-                        <?php
-                            $sql = "SELECT * FROM equipe";
-                            $result = mysqli_query($connexion, $sql);
-
-                            // Check if the query was successful
-                            if ($result) {
-                                while ($row = mysqli_fetch_assoc($result)) {
-                                    ?>
-                                    <option value="<?php echo $row['ID_equipe']; ?>">
-                                        <?php echo $row['nom_equipe'] ; ?>
-                                    </option>
-                                    <?php
-                                }
-                                // Free result set
-                                mysqli_free_result($result);
-                            } else {
-                                // Handle the error, e.g., display an error message or log the error
-                                echo "Error: " . mysqli_error($connexion);
-                            }
-                            ?>
-                    </select>
+                    <input type="date" value="<?php echo $row['date_creation_eq'] ?>" name="date" id="date" autocomplete="given-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                 </div>
                 </div>
 

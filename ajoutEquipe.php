@@ -1,5 +1,33 @@
 <?php
 	require 'connexion.php';
+
+    if (isset($_POST['save-btn'])) {
+        $nomEquipe = $_POST['nomEq'];
+        $date = $_POST['date'];
+
+        // Assuming $connexion is your database connection object
+        $sql = "INSERT INTO equipe (nom_equipe, date_creation_eq) VALUES ( ?, ?)";
+        
+        // Use prepared statement to prevent SQL injection
+        $stmt = mysqli_prepare($connexion, $sql);
+
+        // Bind parameters
+        mysqli_stmt_bind_param($stmt, "ss", $nomEquipe, $date);
+
+        // Execute the statement
+        $result = mysqli_stmt_execute($stmt);
+
+        if ($result) {
+            header("Location: ./index.php");
+            exit();
+        } else {
+            // Display the error message
+            echo "Error: " . mysqli_error($connexion);
+        }
+
+        // Close the statement
+        mysqli_stmt_close($stmt);
+    }
 ?>
 
 <!doctype html>
@@ -87,35 +115,6 @@
             <button type="submit" name="save-btn" value="save" class="rounded-md bg-red-700 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save</button>
         </form>
     </div>
-    
-    <?php
-    if (isset($_POST['save-btn'])) {
-        $nomEquipe = $_POST['nomEq'];
-        $date = $_POST['date'];
-
-        // Assuming $connexion is your database connection object
-        $sql = "INSERT INTO equipe (nom_equipe, date_creation_eq) VALUES ( ?, ?)";
-        
-        // Use prepared statement to prevent SQL injection
-        $stmt = mysqli_prepare($connexion, $sql);
-
-        // Bind parameters
-        mysqli_stmt_bind_param($stmt, "ss", $nomEquipe, $date);
-
-        // Execute the statement
-        $result = mysqli_stmt_execute($stmt);
-
-        if ($result) {
-            echo "Data saved";
-        } else {
-            // Display the error message
-            echo "Error: " . mysqli_error($connexion);
-        }
-
-        // Close the statement
-        mysqli_stmt_close($stmt);
-    }
-    ?>
 </body>
 </html>
 
